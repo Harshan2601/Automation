@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: groq-linkedin-voice-agent
+    runtime: python
+    plan: starter
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    disk:
+      name: groq-linkedin-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TOKEN_ENCRYPTION_KEY
+        sync: false
+      - key: LINKEDIN_CLIENT_ID
+        sync: false
+      - key: LINKEDIN_CLIENT_SECRET
+        sync: false
+      - key: DATA_DIR
+        value: /var/data
+      - key: DATABASE_PATH
+        value: /var/data/app.db
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-20b
+      - key: GROQ_TRANSCRIPTION_MODEL
+        value: whisper-large-v3-turbo
+      - key: LINKEDIN_API_VERSION
+        value: 202610
+      - key: APPROVAL_TIMEOUT_HOURS
+        value: "24"
+      - key: SCHEDULER_INTERVAL_SECONDS
+        value: "60"
+      - key: MAX_VOICE_FILE_BYTES
+        value: "26214400"

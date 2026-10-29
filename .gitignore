@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+data/app.db
+data/app.db-shm
+data/app.db-wal
+data/photos/*
+!data/photos/.gitkeep
+!data/photos/README.md
